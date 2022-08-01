@@ -1,0 +1,2 @@
+# AndroidCI-CDGitHubActions
+El presente repositorio busca la implementación de Integración Continua y Despliegue Continuo de una Aplicación Android por medio de Github Actions. El proceso de CI dispara una comprobación de código Lint, seguida de un conjunto de pruebas unitarias con JUnit y Mockito y pruebas de instrumentación con Espresso, despues genera el apk de Android y ejecuta un conjunto de pruebas automatizadas con Appium para finalmente realizar el despliegue de la aplicación.
