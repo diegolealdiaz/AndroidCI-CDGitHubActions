@@ -3,6 +3,7 @@ package com.cdp.androidcicdgithubactions.menu;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
@@ -33,8 +34,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
             Utils.getUtils().closeKeyboardMovil(MainActivity.this);
             getDataOperation();
         });
+    }
 
-
+    public MainActivityNavigator getContext(){
+        return this;
     }
 
     public void getDataOperation(){

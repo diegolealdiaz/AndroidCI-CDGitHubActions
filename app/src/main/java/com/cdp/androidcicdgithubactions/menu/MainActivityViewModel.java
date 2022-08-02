@@ -11,13 +11,14 @@ public class MainActivityViewModel extends ViewModel {
 
     public boolean validateData(String num1, String num2, String op){
         if (num1.isEmpty() || num2.isEmpty() || op.isEmpty()){
-            navigator.onDataError("Por favor ingrese todos los campos","error");
+            if (navigator != null)
+                navigator.onDataError("Por favor ingrese todos los campos","error");
             return false;
         }
         return true;
     }
 
-    public void operationData(int num1, int num2, String op){
+    public int operationData(int num1, int num2, String op){
         int result = 0;
         switch (op){
             case "Sumar":
@@ -33,7 +34,8 @@ public class MainActivityViewModel extends ViewModel {
                 result = num1 / num2;
                 break;
         }
-        navigator.printResultView(result);
-
+        if (navigator != null)
+            navigator.printResultView(result);
+        return result;
     }
 }
