@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
+    id "org.sonarqube" version "3.3"
 }
+
 
 android {
     compileSdk 32
