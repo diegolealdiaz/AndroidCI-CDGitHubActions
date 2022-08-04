@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityNav
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        System.out.println("Inicio Login");
+        System.out.println("Inicio Sesion Login");
 
         binding.btnLogin.setOnClickListener(View -> {
             getTextUser();
