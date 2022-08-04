@@ -149,6 +149,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
+          projectBaseDir: app/src
           args: >
             -Dsonar.organization=diegolealdiaz
             -Dsonar.projectKey=diegolealdiaz_AndroidCI-CDGitHubActions
