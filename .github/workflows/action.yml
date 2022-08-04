@@ -69,4 +69,39 @@ jobs:
         with: 
           name: unit_test_report
           path: app/build/reports/tests/testDebugUnitTest/  
+        
+        
+        # This workflow contains a single job called "unit-test"
+  instrumentation-test:
+    # Triggers the workflow on pipeline unit test event
+    needs: [unit-test]
+    # If Job unit-test is success
+    if: ${{ success() }}
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout the code
+        uses: actions/checkout@v3
+        
+      # Runs a single command using the runners shell for archive permission gradlew execute
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      # Runs a single command using the runners shell for instrumentation test execute
+      - name: Run Espresso Test
+        uses: reactivecircus/android-emulator-runner@v3
+        with: 
+          api-level: 29
+          script: ./gradlew connectedCheck
+
+      # Runs a set of commands using the runners shell for archive html generate
+      - name: Upload html test report
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with: 
+          name: instrumentation_test_report
+          path: app/build/results/report/androidTest/connected/
           
