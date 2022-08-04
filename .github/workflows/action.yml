@@ -79,6 +79,11 @@ jobs:
     if: ${{ success() }}
     # The type of runner that the job will run on
     runs-on: macos-latest
+    # The type strategy for execute emulator
+    strategy:
+      matrix:
+        api-level: [21, 23 ,29]
+        target: [default]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -91,11 +96,11 @@ jobs:
         run: chmod +x ./gradlew
 
       # Runs a single command using the runners shell for instrumentation test execute
-      - name: Run Espresso Test
+      - name: Run Instrumentation Test
         uses: reactivecircus/android-emulator-runner@v2
         with: 
-          api-level: 23
-          target: default
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
           arch: x86
           profile: Nexus 6
           script: ./gradlew connectedCheck --stacktrace
