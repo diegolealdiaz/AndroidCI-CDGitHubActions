@@ -34,7 +34,7 @@ public class MainActivityViewModelTest {
 
     @Test
     public void resta() throws Exception {
-        assertEquals(-1,mainActivityViewModel.operationData(6,5,"Restar"));
+        assertEquals(-1,mainActivityViewModel.operationData(5,6,"Restar"));
     }
 
     @Test
