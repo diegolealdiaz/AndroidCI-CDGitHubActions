@@ -92,7 +92,7 @@ jobs:
 
       # Runs a single command using the runners shell for instrumentation test execute
       - name: Run Espresso Test
-        uses: reactivecircus/android-emulator-runner@v3
+        uses: reactivecircus/android-emulator-runner@v2
         with: 
           api-level: 29
           script: ./gradlew connectedCheck
