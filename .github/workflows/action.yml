@@ -94,8 +94,11 @@ jobs:
       - name: Run Espresso Test
         uses: reactivecircus/android-emulator-runner@v2
         with: 
-          api-level: 29
-          script: ./gradlew connectedCheck
+          api-level: 23
+          target: default
+          arch: x86
+          profile: Nexus 6
+          script: ./gradlew connectedCheck --stacktrace
 
       # Runs a set of commands using the runners shell for archive html generate
       - name: Upload html test report
