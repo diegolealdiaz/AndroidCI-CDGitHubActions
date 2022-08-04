@@ -71,7 +71,7 @@ jobs:
           path: app/build/reports/tests/testDebugUnitTest/  
         
         
-        # This workflow contains a single job called "unit-test"
+      # This workflow contains a single job called "instrumentation-test"
   instrumentation-test:
     # Triggers the workflow on pipeline unit test event
     needs: [unit-test]
@@ -89,6 +89,12 @@ jobs:
       # Runs a single command using the runners shell for archive permission gradlew execute
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+        
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          architecture: 'x64'
 
       # Runs a single command using the runners shell for instrumentation test execute
       - name: Run Instrumentation Test
