@@ -140,7 +140,7 @@ jobs:
 
       # Runs a single command using the runners shell for static code analysis
       - name: SonarCloud Scan
-        run: .gradlew app_sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew app_sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
