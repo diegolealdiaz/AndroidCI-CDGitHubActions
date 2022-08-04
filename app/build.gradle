@@ -4,6 +4,7 @@ plugins {
 }
 
 apply plugin: "org.sonarqube"
+tasks.register("sonarqube"){}
 
 android {
     compileSdk 32
