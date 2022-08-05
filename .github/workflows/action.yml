@@ -143,14 +143,39 @@ jobs:
         run: ./gradlew app:sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      - name: SonarCloud Scan
-#        uses: SonarSource/sonarcloud-github-action@master
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#        with:
-#          args: >
-#            -Dsonar.organization=diegolealdiaz
-#            -Dsonar.projectKey=diegolealdiaz_AndroidCI-CDGitHubActions
-#            -Dsonar.python.coverage.reportPaths=coverage.xml
-#            -Dsonar.sources=./src/main
+          
+  apk-debug:
+    needs: [ static-code-analysis ]
+    # If Job unit-test is success
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    
+    steps:
+
+      # 1
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+        # Runs a single command using the runners shell for archive permission gradlew execute
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      # 2 
+      - name: Generate Release APK
+        run: ./gradlew assembleDebug
+
+      # 3
+      - name: Sign APK
+        uses: victorbnl/build-signed-apk@main
+        with:
+          keystore_file: ${{ secrets.SIGNING_KEY }}
+          keystore_password: ${{ secrets.KEY_PASSWORD }}
+          key_alias: ${{ secrets.KEY_ALIAS }}
+          key_password: ${{ secrets.KEY_PASSWORD }}
+
+      # 4
+      - uses: actions/upload-artifact@master
+        with:
+          name: debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+
