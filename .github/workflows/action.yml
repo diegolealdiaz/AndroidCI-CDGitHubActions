@@ -204,5 +204,5 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: debug.apk
-          path: app/build/outputs/apk/debug/probe-debug.apk
+          path: app/build/outputs/apk/debug/apk-debug.apk
 
