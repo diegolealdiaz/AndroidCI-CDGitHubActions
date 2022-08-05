@@ -157,25 +157,52 @@ jobs:
         uses: actions/checkout@v3
         
         # Runs a single command using the runners shell for archive permission gradlew execute
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      #- name: Make gradlew executable
+      #  run: chmod +x ./gradlew
 
       # 2 
-      - name: Generate Release APK
-        run: ./gradlew assembleDebug
+      #- name: Generate Release APK
+      #  run: ./gradlew assembleDebug
 
       # 3
+      #- name: Sign APK
+      #  uses: victorbnl/build-signed-apk@main
+      #  with:
+      #    keystore_file: ${{ secrets.SIGNING_KEY }}
+      #    keystore_password: ${{ secrets.KEY_PASSWORD }}
+      #    key_alias: ${{ secrets.KEY_ALIAS }}
+      #    key_password: ${{ secrets.KEY_PASSWORD }}
+      
+      - name: Sudo Update
+        run: sudo apt-get -y update
+        shell: bash
+        
+      - name: Sudo Install JDK
+        run: sudo apt-get -y install openjdk-11-jdk
+        shell: bash
+        
+      - name: Copy the key file to the signing key file
+        run: cp ${{ secrets.SIGNING_KEY }} $GITHUB_WORKSPACE/signing-key.jks
+        shell: bash
+      
       - name: Sign APK
-        uses: victorbnl/build-signed-apk@main
-        with:
-          keystore_file: ${{ secrets.SIGNING_KEY }}
-          keystore_password: ${{ secrets.KEY_PASSWORD }}
-          key_alias: ${{ secrets.KEY_ALIAS }}
-          key_password: ${{ secrets.KEY_PASSWORD }}
-
+        shell: bash
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build
+          ./gradlew assembleDebug \
+            -Pandroid.injected.signing.store.file=$GITHUB_WORKSPACE/signing-key.jks \
+            -Pandroid.injected.signing.store.password=${{ secrets.KEY_PASSWORD }} \
+            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
+      
+      - name: Delete key file
+        run: rm $GITHUB_WORKSPACE/signing-key.jks
+        shell: bash
+      
       # 4
       - uses: actions/upload-artifact@master
         with:
           name: debug.apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/probe-debug.apk
 
